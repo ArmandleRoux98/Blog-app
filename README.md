@@ -125,6 +125,7 @@ Your app will be accessible at: http://localhost:8000
 
 - Python 3.12
 - Django 4+
+- PostgreSQL
 - Gunicorn
 - Docker
 - Docker compose
