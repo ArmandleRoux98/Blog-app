@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{{ title }} </title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <p>{{ body }}</p>
+        <h3><em>Author: {{ author }}</em></h3>
+        <a href="{% url 'blog_app:home' %}"><input type="button" value="Home"></a>
+        {% if user.username == author %}
+            <a href="{% url 'blog_app:edit_blog' blog_id %}"><input type="button" value="Edit Blog"></a>
+        {% endif %}
+    </div>
+{% endblock %}

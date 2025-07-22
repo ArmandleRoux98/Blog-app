@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Register New User</title>
+{% endblock %}
+
+{% block body %}
+
+{% if next %}
+{% if user.is_authenticated %}
+<p>Your account doesn't have access to this page. To proceed,
+  please login with an account that has access.</p>
+  {% else %}
+  <p>Please login to see this page.</p>
+  {% endif %}
+  {% endif %}
+  
+  <div class="container">
+    <form method="post" action="{% url 'authenticate:register' %}">
+      <h1 style="text-align: center;">Register New Account</h1>
+      {% csrf_token %}
+      <!-- register.html -->
+      <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <div>
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+        
+        <div>
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}
+          
+          {% if form.password1.errors %}
+          <ul class="errorlist">
+            {% for error in form.password1.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        
+        <div>
+          {{ form.password2.label_tag }}
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+        </div>    
+      
+      <input type="submit" value="Register">
+      <input type="hidden" name="next" value="{{ next }}">
+    </form>
+  </div>
+  {% endblock %}

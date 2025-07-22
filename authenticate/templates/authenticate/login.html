@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Login</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<form method="post" action="{% url 'authenticate:login' %}">
+
+    <h1 style="text-align: center;">Login</h1>
+
+    {% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+    {% endif %}
+
+    {% csrf_token %}
+    <table>
+    <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+    </tr>
+    </table>
+
+    <input type="submit" value="login">
+    <a href="{% url 'authenticate:register' %}" class="button">Register</a>
+    <input type="hidden" name="next" value="{{ next }}">
+
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+</form>
+</div>
+
+{# Assumes you set up the password_reset view in your URLconf #}
+
+
+{% endblock %}
