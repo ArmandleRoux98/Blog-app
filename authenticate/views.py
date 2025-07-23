@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
-# Create your views here.
 def register_user(request):
+    """
+    GET - Returns page with form to register a new user.
+    POST - Attempts to create new user, logs them in and redirect to 
+           home on success or redirect back to register page.
+    """
     if request.method == "GET":
         form = UserCreationForm()
         return render(request, "authenticate/registration.html", context={'form':form})
@@ -23,5 +27,6 @@ def register_user(request):
         return redirect('blog_app:home')
     
 def sign_user_out(request):
+    """Clears user's session and logs them out."""
     logout(request)
     return redirect('blog_app:home')
