@@ -6,6 +6,10 @@ from .models import Blog
 
 @login_required
 def create_blog(request):
+    """
+    Return page with form to create Blog post on GET.
+    Create Blog post and redirect to view blog page on POST. 
+    """
     if request.method == "POST":
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -20,10 +24,10 @@ def create_blog(request):
 
 
 def edit_blog(request, blog_id):
-    # Get relevant blog post
-    # Check if blog post is owned by logged in user
-    # Create form with blog post content
-    # Send form to template to render.
+    """
+    Returns page with form to edit Blog post with given id or redirects 
+    to home if Blog post is not found.
+    """
     try:
         blog_post = Blog.objects.get(pk=blog_id)
         if blog_post.author == request.user:
@@ -35,6 +39,10 @@ def edit_blog(request, blog_id):
 
 
 def view_blog(request, blog_id):
+    """
+    Returns page displaying Blog post with given id or redirects 
+    home if post is not found.
+    """
     try:
         blog_post = Blog.objects.get(pk=blog_id)
         context = {
@@ -49,5 +57,6 @@ def view_blog(request, blog_id):
         return redirect("blog_app:home")
 
 def home(request):
+    """Returns page displaying all blog posts available."""
     blogs = Blog.objects.all()
     return render(request, 'home.html', {'blogs': blogs})
