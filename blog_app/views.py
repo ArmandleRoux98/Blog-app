@@ -7,8 +7,8 @@ from .models import Blog
 @login_required
 def create_blog(request):
     """
-    Return page with form to create Blog post on GET.
-    Create Blog post and redirect to view blog page on POST. 
+    GET - Return page with form to create Blog post.
+    POST - Create Blog post and redirect to view blog page.
     """
     if request.method == "POST":
         form = BlogForm(request.POST)
@@ -25,15 +25,26 @@ def create_blog(request):
 
 def edit_blog(request, blog_id):
     """
-    Returns page with form to edit Blog post with given id or redirects 
-    to home if Blog post is not found.
+    GET- Returns page with form to edit Blog post with given id or redirects 
+    to home if Blog post is not found on.
+    POST - Edits post with valid form then redirect to view blog on success
+    of redirect back to edit page on fail.
     """
     try:
         blog_post = Blog.objects.get(pk=blog_id)
         if blog_post.author == request.user:
-            form = BlogForm(instance=blog_post)
-            return render(request, 'create_post.html', {'form':form})
-    except Exception:
+            if request.method == "GET":
+                form = BlogForm(instance=blog_post)
+                return render(request, 'create_post.html', {'form':form})
+            elif request.method == "POST":
+                form = BlogForm(request.POST, instance=blog_post)
+                if form.is_valid():
+                    form.save()
+                    return redirect("blog_app:view_blog", blog_id=blog_id)
+                return redirect("blog_app:edit_blog", blog_id=blog_id)
+
+    except Exception as e:
+        print(e)
         return redirect("blog_app:home")
     
 
