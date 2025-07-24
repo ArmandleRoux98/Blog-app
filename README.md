@@ -53,7 +53,7 @@ You can apply migrations to the database in the container use:
 ```
 docker-compose exec web python manage.py migrate
 ```
-Your app will be accessible at: http://localhost:8000 
+Your app will be accessible at: http://localhost 
 
 To stop your containers run:
 ```

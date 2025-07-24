@@ -18,7 +18,7 @@ services:
       - "5432:5432"
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: [ "CMD-SHELL", "pg_isready", "-h", "db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -29,6 +29,7 @@ services:
     command: gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
+      - static_data:/app/static/
     ports:
       - "8000:8000"
     env_file:
@@ -37,5 +38,18 @@ services:
       db:
         condition: service_healthy
 
+  nginx:
+      image: nginx:alpine
+      container_name: nginx_proxy
+      restart: always
+      ports:
+        - "80:80"
+      volumes:
+        - static_data:/static/
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      depends_on:
+        - web
+
 volumes:
   postgres_data:
+  static_data:
