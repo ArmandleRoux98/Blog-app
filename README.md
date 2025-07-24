@@ -11,6 +11,7 @@ Basic Django Application where users can sign in and create blog posts.
 - ✅ Gunicorn for production server
 - ✅ Docker support
 - ✅ Static files collection ready for production
+- ✅ Nginx to serve static files
 - ✅ Environment variable configuration via `.env`
 
 ---
@@ -47,7 +48,7 @@ docker-compose build
 ```
 followed by
 ```
-docker-compose up
+docker-compose up -d
 ```
 You can apply migrations to the database in the container use:
 ```
@@ -119,6 +120,8 @@ Your app will be accessible at: http://localhost:8000
 │       └── view_post.html
 │   └── static
 │       └── create_blog.css
+│── nginx
+│   └── default.conf
 ```
 
 ### 🧰 Tech Stack
@@ -127,6 +130,7 @@ Your app will be accessible at: http://localhost:8000
 - Django 4+
 - PostgreSQL
 - Gunicorn
+- Nginx
 - Docker
 - Docker compose
 

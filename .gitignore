@@ -3,3 +3,4 @@ blog_app/__pycache__/
 blog_project/__pycache__/
 db.sqlite3
 .env
+venv/
